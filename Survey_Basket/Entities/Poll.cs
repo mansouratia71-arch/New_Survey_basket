@@ -16,6 +16,9 @@
         public bool isPublished { get; set; }
 
 
+        public ICollection<Question> questions { get; set; } = [];
+
+
 
     }
 }

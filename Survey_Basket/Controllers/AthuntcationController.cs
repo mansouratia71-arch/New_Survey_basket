@@ -24,15 +24,15 @@ namespace Survey_Basket.Controllers
 
             return NoContent();
         }
-        // [HttpPost("register")]
-        //public async Task<IActionResult> Register(RequsteRegister model, CancellationToken cancellation)
-        //{
-        //    var user = await _authservices.RegisterAsync(model, cancellation);
-        //    if (user != null)
-        //        return Ok(user);
+        [HttpPost("register")]
+        public async Task<IActionResult> Register(RequsteRegister model, CancellationToken cancellation)
+        {
+            var user = await _authservices.RegisterAsync(model, cancellation);
+            if (user != null)
+                return Ok(user);
 
-        //    return NoContent();
-        //}
+            return NoContent();
+        }
         [HttpPost("refreshtoken")]
         public async Task<IActionResult> GetRefreshToken(RequstRfreshTokencs requst,CancellationToken cancellation)
         {

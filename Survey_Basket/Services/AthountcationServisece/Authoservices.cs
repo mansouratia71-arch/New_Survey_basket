@@ -45,23 +45,23 @@ namespace Survey_Basket.Services.AthountcationServisece
            
         }
 
-        //public async Task<AuthResponse?> RegisterAsync(RequsteRegister request, CancellationToken cancellation)
-        //{
-        //    var EmailisExist= await _usermanger.FindByEmailAsync(request.Email);
-        //    if (EmailisExist is not null)
-        //        return null;
-        //    var model=request.Adapt<ApplicationUsercs>();
-        //    var result = await _usermanger.CreateAsync(model,request.Password);
-        //    if(!result.Succeeded)
-        //        return null;
+        public async Task<RegesterResponse?> RegisterAsync(RequsteRegister request, CancellationToken cancellation)
+        {
+            var EmailisExist = await _usermanger.FindByEmailAsync(request.Email);
+            if (EmailisExist is not null)
+                return null;
+            var model = request.Adapt<ApplicationUser>();
+            var result = await _usermanger.CreateAsync(model, request.Password);
+            if (!result.Succeeded)
+                return null;
 
-        //    var (token, expiresIn) = await _jwtServices.GenerateTokenAsync(model, cancellation);
+            var (token, expiresIn) = await _jwtServices.GenerateTokenAsync(model, cancellation);
 
 
 
-        //    return new AuthResponse(model.Id, model.Email!, model.UserName!, token, expiresIn);
+            return new RegesterResponse(model.Id, model.Email!, model.UserName!, token, expiresIn);
 
-        //}
+        }
 
         private static string CreateRefreshToken()
         {

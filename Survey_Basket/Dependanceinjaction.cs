@@ -1,12 +1,15 @@
 ﻿
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.IdentityModel.Tokens;
+
+using Survey_Basket.Exceptionhandel;
 using Survey_Basket.Services.AthountcationServisece;
 using Survey_Basket.Services.jwtServices;
 using Survey_Basket.Services.pollserveices;
+using Survey_Basket.Services.QuestionServece;
 using System.Text;
-using Microsoft.AspNetCore.Authorization;
-using Survey_Basket.Exceptionhandel;
 
 namespace Survey_Basket
 {
@@ -36,6 +39,8 @@ namespace Survey_Basket
         {
             dep.AddScoped<IservecePoll, Servicepoll>();
             dep.AddScoped<IAuthservices,Authoservices>();
+            dep.AddScoped<IQuestionservesce, Questionservces>();
+            dep.AddScoped<IVotes, Votes>();
             dep.AddProblemDetails();
             dep.AddExceptionHandler<GlobalException>();
             return dep;

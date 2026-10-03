@@ -4,17 +4,17 @@ using System.Linq.Expressions;
 
 namespace Survey_Basket.Exceptionhandel
 {
-    public class GlobalException(ILogger<GotoExpression> logger) : IExceptionHandler
+    public class GlobalException(ILogger<GlobalException> logger) : IExceptionHandler
     {
-        private readonly ILogger _logger= logger;
-       
-       
-        public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
-        {
-           
-                _logger.LogError(exception, "owerng masg{massge}", exception.Message);
+        private readonly ILogger _logger = logger;
 
-                var statacode = StatusCodes.Status500InternalServerError;
+
+        public async ValueTask<bool> TryHandleAsync(HttpContext httpcontext,Exception exception, CancellationToken cancellationtoken)
+        {
+
+            _logger.LogError(exception, "owerng masg{massge}", exception.Message);
+
+            var statacode = StatusCodes.Status500InternalServerError;
             var promlem = new ProblemDetails
             {
                 Status = 500,
@@ -22,13 +22,13 @@ namespace Survey_Basket.Exceptionhandel
                 Type = ""
             };
 
-            httpContext.Response.StatusCode = statacode;    
-            await httpContext.Response.WriteAsJsonAsync(promlem);
+            httpcontext.Response.StatusCode = statacode;
+            await httpcontext.Response.WriteAsJsonAsync(promlem);
             return true;
- 
 
 
-            }
+
         }
     }
+}
 

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Survey_Basket.Dto.Entitypoll;
 using Survey_Basket.ErorrHandel;
 using Survey_Basket.ErorrHandel.Error;
 
@@ -12,7 +13,7 @@ namespace Survey_Basket.Services.pollserveices
         {
             var result= await _context.Polls.AnyAsync(x=>x.title == poll.title);
             if (result)
-              return  Result.Failure<Poll>(PollError.dublicatePoll);
+              return  Result.Failure<Poll>(PollError.dublicateDPoll);
             await _context.AddAsync(poll, cancellation);
             await _context.SaveChangesAsync(cancellation);
 
@@ -44,12 +45,17 @@ namespace Survey_Basket.Services.pollserveices
             var poll= await _context.Polls.FindAsync(id, cancellation);
             if(poll == null)
             {
-                return Result.Failure<Poll>(new Erorr("notFound", "the opject not found"));
+                return Result.Failure<Poll>(new Erorr("notFound", "the opject not found",StatusCodes.Status404NotFound));
             }
             return Result.Success<Poll>(poll);
         }
 
-  
+        public async Task<IEnumerable<ResponsePoll>> GetAvlibleAsync(CancellationToken cancellation = default)
+        {
+            return await _context.Polls.Where(x => x.isPublished && x.startdate <= DateOnly.FromDateTime(DateTime.UtcNow) && x.enddate >= DateOnly.FromDateTime(DateTime.UtcNow))
+                .AsNoTracking().ProjectToType<ResponsePoll>().ToListAsync(cancellation);
+        }
+
         public async Task<Result<Poll>> TogelPublishesdAsync(int id, CancellationToken cancellation = default)
         {
             var model = await GetAsync(id, cancellation);
@@ -76,7 +82,7 @@ namespace Survey_Basket.Services.pollserveices
                entity.sumary = poll.sumary;
 
                if (await _context.Polls.AnyAsync(x => x.title == entity.title && x.Id != entity.Id))
-                    return Result.Failure<bool>(PollError.dublicatePoll);
+                    return Result.Failure<bool>(PollError.dublicateDPoll);
                 await _context.SaveChangesAsync(cancellation);
 
                 return Result.Success<bool>(true);

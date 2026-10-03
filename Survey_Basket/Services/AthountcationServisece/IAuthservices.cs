@@ -8,7 +8,7 @@ namespace Survey_Basket.Services.AthountcationServisece
     {
       Task<AuthResponse?> login(Login login,CancellationToken cancellation);
 
-        // Task<AuthResponse?> RegisterAsync(RequsteRegister request,CancellationToken cancellation);
+     Task<RegesterResponse?> RegisterAsync(RequsteRegister request,CancellationToken cancellation);
 
        Task <AuthResponse?> GetRefreshToken(RequstRfreshTokencs requst,CancellationToken cancellation);
 
