@@ -9,6 +9,8 @@ using Survey_Basket.Services.AthountcationServisece;
 using Survey_Basket.Services.jwtServices;
 using Survey_Basket.Services.pollserveices;
 using Survey_Basket.Services.QuestionServece;
+using Survey_Basket.Services.ResultVote;
+using Survey_Basket.Services.ResulVotet;
 using System.Text;
 
 namespace Survey_Basket
@@ -41,6 +43,7 @@ namespace Survey_Basket
             dep.AddScoped<IAuthservices,Authoservices>();
             dep.AddScoped<IQuestionservesce, Questionservces>();
             dep.AddScoped<IVotes, Votes>();
+            dep.AddScoped<IResultvote,ResultVote>();
             dep.AddProblemDetails();
             dep.AddExceptionHandler<GlobalException>();
             return dep;

@@ -1,5 +1,7 @@
 ﻿using Survey_Basket.Dto.EntityAutho;
 using Survey_Basket.Dto.EntityRegester;
+using Survey_Basket.ErorrHandel;
+using Survey_Basket.ErorrHandel.Error;
 using Survey_Basket.Services.jwtServices;
 using System.Security.Cryptography;
 
@@ -101,6 +103,30 @@ namespace Survey_Basket.Services.AthountcationServisece
 
             return new AuthResponse(user.Id, user.Email!, user.UserName!, newtoken, newexpiresIn, newrefreshtoken, expriesRefreshToken);
 
+        }
+
+        public async Task<Result> RevokRefreshToken(string requst, CancellationToken cancellation)
+        {
+            var user =  _usermanger.Users.Include(b=>b.RefreshTokens).SingleOrDefault(a => a.RefreshTokens.Any(r => r.Token == requst));
+            if (user is null)
+                return Result.Failure(PollError.Notfound);
+
+            var refreshTokens = user.RefreshTokens.SingleOrDefault(a => a.Token == requst && a.RevokedOn == null); 
+
+            if(refreshTokens==null)
+                return Result.Failure(PollError.Notfound);
+
+            refreshTokens.RevokedOn = DateTime.UtcNow;
+
+            var result = await _usermanger.UpdateAsync(user);
+
+            if (result.Succeeded)
+                return Result.Success();
+
+            var y = result.Errors.First();
+
+
+            return Result.Failure(new Erorr(y.Code,y.Description,404));
         }
     }
     }

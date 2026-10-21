@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Identity.Client;
+
 using Survey_Basket.ErorrHandel;
 
 namespace Survey_Basket.ExtentionMethod

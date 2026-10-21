@@ -1,5 +1,6 @@
 
 using Survey_Basket.midlewire;
+using Serilog;
 
 namespace Survey_Basket
 {
@@ -18,7 +19,18 @@ namespace Survey_Basket
 
             builder.Services.addservises(builder.Configuration);
 
+            Log.Logger = new LoggerConfiguration()
+               .ReadFrom.Configuration(builder.Configuration)
+               .WriteTo.Console() 
+               .CreateLogger();
+
+
+
+            builder.Host.UseSerilog();
+
             var app = builder.Build();
+
+            
 
 
             if (app.Environment.IsDevelopment())

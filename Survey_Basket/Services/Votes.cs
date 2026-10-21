@@ -37,6 +37,7 @@ namespace Survey_Basket.Services
                     QuestionId = x.questionId,
                     AnswerId = x.answerId
                 }).ToList(),
+               
 
             };
 

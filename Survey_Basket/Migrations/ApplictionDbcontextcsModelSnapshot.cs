@@ -518,7 +518,7 @@ namespace Survey_Basket.Migrations
             modelBuilder.Entity("Survey_Basket.Entities.Vote", b =>
                 {
                     b.HasOne("Survey_Basket.Entities.Poll", "poll")
-                        .WithMany()
+                        .WithMany("Votes")
                         .HasForeignKey("pollid")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -568,6 +568,8 @@ namespace Survey_Basket.Migrations
 
             modelBuilder.Entity("Survey_Basket.Entities.Poll", b =>
                 {
+                    b.Navigation("Votes");
+
                     b.Navigation("questions");
                 });
 

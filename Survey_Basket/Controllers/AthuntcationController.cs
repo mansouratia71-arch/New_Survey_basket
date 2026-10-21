@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Survey_Basket.Dto.EntityAutho;
 using Survey_Basket.Dto.EntityRegester;
+using Survey_Basket.ExtentionMethod;
 using Survey_Basket.Services.AthountcationServisece;
 
 namespace Survey_Basket.Controllers
@@ -42,6 +43,16 @@ namespace Survey_Basket.Controllers
                 return Ok(response);
             else 
                 return NotFound();    
+        }
+        [HttpPost("RevokRefreshToken")]
+        public async Task<IActionResult> RevokRefreshToken(RequestRevokRefreshToken requst, CancellationToken cancellation)
+        {
+            var response = await _authservices.RevokRefreshToken(requst.RefeshtoheRevok, cancellation);
+
+            if (response.IsSuccess)
+                return Ok();
+            else
+                return response.ToProblem();
         }
     }
 

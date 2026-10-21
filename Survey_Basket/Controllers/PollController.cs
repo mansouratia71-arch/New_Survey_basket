@@ -13,16 +13,17 @@ namespace Survey_Basket.Controllers
     [Route("api/[controller]")]
     [ApiController]
 
-    public class PollController(IservecePoll servecePoll) : ControllerBase
+    public class PollController(IservecePoll servecePoll,ILogger<PollController> logger) : ControllerBase
     {
         private readonly IservecePoll _servecePoll = servecePoll;
 
-
+        public ILogger<PollController> _Logger  = logger;
 
         [HttpPost]
         
         public async Task<IActionResult> Add(RequstPoll requstPoll, CancellationToken cancellation)
         {
+            _Logger.LogInformation("this is poll{poll}", requstPoll.title);
            if(requstPoll != null)
            {
                 var model = requstPoll.Adapt<Poll>();
